@@ -1,3 +1,5 @@
 node_modules
 .next
 lib/api
+public/sw.js
+public/workbox*

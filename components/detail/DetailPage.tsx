@@ -42,9 +42,11 @@ const DetailPage = ({ media }: DetailPageProps) => {
   );
 
   const {
-    data: recommendedMediaData,
-    loading: recommendedMediaLoading,
-    error: recommendedMediaError,
+    res: {
+      data: recommendedMediaData,
+      loading: recommendedMediaLoading,
+      error: recommendedMediaError,
+    },
   } = useGetDiscover(
     getMediaTypeFromString(media.__typename),
     null,
