@@ -4,13 +4,13 @@ import Layout from "../components/Layout";
 import { useApollo } from "../lib/apolloClient";
 import { Provider } from "next-auth/client";
 import "../styles/globals.css";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { theme } from "../types/theme";
 import { useUpdate } from "../hooks/UpdateHooks";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "../components/feedback/Toast";
 
-export const ThemeContext = React.createContext({
+export const ThemeContext = createContext({
   currentTheme: theme.light,
   setCurrentTheme: (theme: theme) => {},
 });

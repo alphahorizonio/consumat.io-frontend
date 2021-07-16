@@ -93,18 +93,32 @@ export function useGetPopular(type: MediaType, page: number) {
 export function useGetDiscover(
   type: MediaType,
   person: number,
-  similarTo: number,
+  similarTo: number | null,
   page: number
 ) {
-  return useGetDiscoverQuery({
+  const res = useGetDiscoverQuery({
     variables: {
-      type: type,
-      person: person,
-      similarTo: similarTo,
-      page: page,
+      type,
+      person,
+      similarTo,
+      page,
     },
     fetchPolicy: "network-only",
   });
+
+  return similarTo
+    ? {
+        res,
+        skipped: false,
+      }
+    : {
+        res: {
+          data: null,
+          loading: null,
+          error: null,
+        },
+        skipped: true,
+      };
 }
 
 export function useGetByRating(

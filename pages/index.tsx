@@ -97,9 +97,12 @@ const Home = () => {
   } = useGetList(MediaType.Tv, WatchStatus.Finished, null);
 
   const {
-    data: recommendedBasedOnFavoriteData,
-    loading: recommendedBasedOnFavoriteLoading,
-    error: recommendedBasedOnFavoriteError,
+    res: {
+      data: recommendedBasedOnFavoriteData,
+      loading: recommendedBasedOnFavoriteLoading,
+      error: recommendedBasedOnFavoriteError,
+    },
+    skipped: recommendedBasedOnFavoriteSkipped,
   } = useGetDiscover(
     getMediaTypeFromString(randomFavorite?.__typename),
     null,
@@ -108,9 +111,12 @@ const Home = () => {
   );
 
   const {
-    data: recommendedBasedOnWatchedData,
-    loading: recommendedBasedOnWatchedLoading,
-    error: recommendedBasedOnWatchedError,
+    res: {
+      data: recommendedBasedOnWatchedData,
+      loading: recommendedBasedOnWatchedLoading,
+      error: recommendedBasedOnWatchedError,
+    },
+    skipped: recommendedBasedOnWatchedSkipped,
   } = useGetDiscover(
     getMediaTypeFromString(randomWatched?.__typename),
     null,
@@ -160,27 +166,31 @@ const Home = () => {
 
       <HomeHeader backgroundImageSource={headerImageSource} />
 
-      <MediaListHorizontal
-        title={
-          randomFavorite
-            ? `BECAUSE YOU LIKED ${randomFavorite?.title.toUpperCase()}`
-            : null
-        }
-        mediaPage={recommendedBasedOnFavoriteData?.discover}
-        loading={recommendedBasedOnFavoriteLoading}
-        error={recommendedBasedOnFavoriteError}
-      />
+      {!recommendedBasedOnFavoriteSkipped && (
+        <MediaListHorizontal
+          title={
+            randomFavorite
+              ? `BECAUSE YOU LIKED ${randomFavorite?.title.toUpperCase()}`
+              : null
+          }
+          mediaPage={recommendedBasedOnFavoriteData?.discover}
+          loading={recommendedBasedOnFavoriteLoading}
+          error={recommendedBasedOnFavoriteError}
+        />
+      )}
 
-      <MediaListHorizontal
-        title={
-          randomWatched
-            ? `BECAUSE YOU WATCHED ${randomWatched?.title.toUpperCase()}`
-            : null
-        }
-        mediaPage={recommendedBasedOnWatchedData?.discover}
-        loading={recommendedBasedOnWatchedLoading}
-        error={recommendedBasedOnWatchedError}
-      />
+      {!recommendedBasedOnWatchedSkipped && (
+        <MediaListHorizontal
+          title={
+            randomWatched
+              ? `BECAUSE YOU WATCHED ${randomWatched?.title.toUpperCase()}`
+              : null
+          }
+          mediaPage={recommendedBasedOnWatchedData?.discover}
+          loading={recommendedBasedOnWatchedLoading}
+          error={recommendedBasedOnWatchedError}
+        />
+      )}
 
       <MediaList
         title="POPULAR MOVIES"
